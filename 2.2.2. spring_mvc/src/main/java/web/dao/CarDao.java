@@ -5,9 +5,10 @@ import web.models.Car;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
-public class CarsDAO {
+public class CarDao {
     private static List<Car> cars = new ArrayList<>();
 
     static {
@@ -16,22 +17,19 @@ public class CarsDAO {
         cars.add(new Car("serie3", 3));
         cars.add(new Car("serie4", 4));
         cars.add(new Car("serie5", 5));
-    }
-
-    public static List<Car> getAllCars() {
-        return cars;
+        cars.add(new Car("serie6", 6));
+        cars.add(new Car("serie7", 7));
     }
 
     public static List<Car> getCars(int count) {
         if (count >= 5) {
             return cars;
-        } else if (count > 0 && count <= cars.size()) {
-            List<Car> list = new ArrayList<>();
-            for (int i = 0; i < count; i++) {
-                list.add(cars.get(i));
-            }
-            return list;
-        } else return null;
+        }
+        if (count > 0 && count <= cars.size()) {
+            return cars.stream().limit(count).collect(Collectors.toList());
+        }
+
+        return null;
     }
 
 }
